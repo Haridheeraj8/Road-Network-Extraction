@@ -1,0 +1,66 @@
+# ── Python ──────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# ── Virtual environments ─────────────────────────────────────────
+venv/
+env/
+.env/
+.venv/
+ENV/
+
+# ── Jupyter ──────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ── ML / Model files ─────────────────────────────────────────────
+# Don't commit large model weights to git
+# Upload best_model.pth to Google Drive or HuggingFace Hub instead
+outputs/checkpoints/*.pth
+outputs/checkpoints/*.pt
+outputs/checkpoints/*.ckpt
+*.pth
+*.pt
+*.ckpt
+
+# Keep the predictions folder but ignore actual prediction images
+outputs/predictions/*
+!outputs/predictions/.gitkeep
+
+# ── Data ─────────────────────────────────────────────────────────
+# Raw and processed data is too large for git
+# Store in Google Drive, Kaggle, or your own storage
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+*.zip
+*.tar.gz
+
+# ── IDE / OS ─────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Logs / Metrics ───────────────────────────────────────────────
+runs/
+logs/
+*.log
+tensorboard_logs/
+wandb/
+
+# ── Environment variables ─────────────────────────────────────────
+.env
+.env.local
+secrets.yaml

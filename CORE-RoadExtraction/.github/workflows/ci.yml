@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Check Python syntax (all source files)
+        run: |
+          python -m py_compile models/d_linknet.py
+          python -m py_compile models/losses.py
+          python -m py_compile utils/dataset.py
+          python -m py_compile utils/metrics.py
+          python -m py_compile scripts/train.py
+          python -m py_compile scripts/predict.py
+          python -m py_compile scripts/prepare_data.py
+          echo "All files pass syntax check"
+
+      - name: Install CPU-only torch + dependencies
+        run: |
+          pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu --quiet
+          pip install -r requirements.txt --quiet
+
+      - name: Test model forward pass
+        run: |
+          python -c "
+          import torch
+          from models.d_linknet import DLinkNet
+          from models.losses import CombinedLoss
+          model = DLinkNet(num_classes=1, pretrained=False)
+          x = torch.randn(1, 3, 256, 256)
+          y = model(x)
+          assert y.shape == (1, 1, 256, 256), f'Unexpected output shape: {y.shape}'
+          criterion = CombinedLoss()
+          mask = (torch.rand(1, 1, 256, 256) > 0.9).float()
+          loss, parts = criterion(y, mask)
+          assert 'bce' in parts and 'tversky' in parts
+          print('Model + loss forward pass: PASSED')
+          print('Output shape:', y.shape)
+          print('Loss:', loss.item())
+          "
