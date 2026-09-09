@@ -49,15 +49,7 @@ Based on [D-LinkNet (Zhou et al., CVPR Workshops 2018)](https://arxiv.org/abs/18
 
 ---
 
-## Results
 
-| Metric | Value |
-|---|---|
-| Best Validation IoU | **49.70%** |
-| Best Validation Recall | **80.23%** |
-| Final Validation Loss | 0.2187 (↓68% from Epoch 1) |
-| Best Checkpoint Epoch | 59 / 60 |
-| Training Platform | Google Colab T4 GPU (~6 sec/epoch) |
 
 **Benchmark context:** The published D-LinkNet paper achieved 64.66% IoU on the large-scale DeepGlobe dataset. This project trains on a custom dataset (Delhi satellite + Kaggle) in a resource-constrained setting.
 
